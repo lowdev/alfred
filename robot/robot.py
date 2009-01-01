@@ -18,7 +18,7 @@ class Robot(object):
         raise NotImplementedError("this is an abstract class")
 
     def startConversation(self):
-        # Todo sound to put here
+        self.ding()
         response = self.listen()
         self.speak(response)
 
