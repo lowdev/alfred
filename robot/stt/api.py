@@ -30,6 +30,9 @@ class ApiRobot(Robot):
     def speak(self, text):
         self.speaker.speak(text)
 
+    def ding(self):
+        self.speaker.ding()
+
     def listen(self):
         resampler = apiai.Resampler(source_samplerate=RATE)
 

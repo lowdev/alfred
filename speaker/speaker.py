@@ -13,10 +13,10 @@ class Speaker(object):
         raise NotImplementedError("this is an abstract class")
 
     def ding(self):
-        self.__playWave()        
+        self.__playWave(DETECT_DING)        
 
     def dong(self):
-        self.__playWave()
+        self.__playWave(DETECT_DONG)
 
     def __playWave(self, fname):
         """Simple callback function to play a wave file.
