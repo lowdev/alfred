@@ -1,4 +1,5 @@
 from speaker import GoogleSpeaker
+from speaker import WatsonSpeaker
 from robot import ApiRobot
 import yaml
 
@@ -22,7 +23,7 @@ def main():
 
     print("Load actions")
     print("Load speaker")
-    speaker = GoogleSpeaker()
+    speaker = WatsonSpeaker(config['watson'])
 
     print("Load head");
     robot = ApiRobot(config['apiai'], speaker)

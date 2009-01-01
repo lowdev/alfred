@@ -9,7 +9,7 @@ DETECT_DONG = os.path.join(TOP_DIR, "resources/dong.wav")
 
 class Speaker(object):
     """Abstract speaker class."""
-    def speak(self):
+    def speak(self, config):
         raise NotImplementedError("this is an abstract class")
 
     def ding(self):
