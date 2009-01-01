@@ -1,4 +1,4 @@
-from ..robot import Robot
+from ...robot import Robot
 
 import speech_recognition as sr
 
@@ -16,7 +16,7 @@ class BingRobot(Robot):
             r.adjust_for_ambient_noise(source)
             print("Say something!")
             super(BingRobot, self).ding()
-            audio = r.listen(source, 5)
+            audio = r.listen(source, 3)
 
         text = ''
         try:
