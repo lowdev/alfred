@@ -2,6 +2,9 @@ from speaker import GoogleSpeaker
 from speaker import WatsonSpeaker
 from robot import ApiRobot
 import yaml
+import ssl
+_create_unverified_https_context = ssl._create_unverified_context
+ssl._create_default_https_context = _create_unverified_https_context
 
 """
 alfred
@@ -24,6 +27,7 @@ def main():
     print("Load actions")
     print("Load speaker")
     speaker = WatsonSpeaker(config['watson'])
+    #speaker = GoogleSpeaker()
 
     print("Load head");
     robot = ApiRobot(config['apiai'], speaker)
