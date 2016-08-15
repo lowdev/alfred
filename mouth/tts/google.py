@@ -2,13 +2,10 @@ from ..mouth import Mouth
 
 import os
 import tempfile
-
-import gi
-gi.require_version('Gst', '1.0')
-from gi.repository import Gst as gst
-from gi.repository import GObject
-#GObject.threads_init()
-gst.init(None)
+import mad
+import wave
+import pyaudio
+import subprocess
 
 from gtts import gTTS
 
@@ -18,34 +15,32 @@ class GoogleMouth(Mouth):
        tts = gTTS(text=sentence, lang='en')
        with tempfile.NamedTemporaryFile(suffix='.mp3', delete=False) as f:
            tmpfile = f.name
+       
        tts.save(tmpfile)
        try:
-           self.__play(tmpfile)
+           self.__playMp3(tmpfile)
        finally:
            os.remove(tmpfile)
+         
+   def __playMp3(self, filename):
+       mf = mad.MadFile(filename)
+       with tempfile.NamedTemporaryFile(suffix='.wav') as f:
+           wav = wave.open(f, mode='wb')
+           wav.setframerate(mf.samplerate())
+           wav.setnchannels(1 if mf.mode() == mad.MODE_SINGLE_CHANNEL else 2)
+           # 4L is the sample width of 32 bit audio
+           wav.setsampwidth(4L)
+           frame = mf.read()
+           while frame is not None:
+               wav.writeframes(frame)
+               frame = mf.read()
+           wav.close()
+           self.__playWav(f.name)
+   
+   def __playWav(self, filename):
+       cmd = ['aplay', str(filename)]
 
-   def __play(self, file):
-       gst.init()
-       mainloop = GObject.MainLoop()
-
-       #setting up a single "playbin" element which handles every part of the playback by itself
-       pl = gst.ElementFactory.make("playbin", "player")
-       pl.set_property('uri', 'file://' + os.path.abspath(file))
-
-       bus = pl.get_bus()
-       bus.add_signal_watch()
-
-       def quit(bus, message):
-           mainloop.quit()
-
-       bus.connect("message::eos", quit)
-       bus.connect("message::error", quit)
-
-       #running the playbin 
-       pl.set_state(gst.State.PLAYING)
-
-       print("start to play")
-       try:
-           mainloop.run()
-       finally:
-           pl.set_state(gst.State.NULL)
+       with tempfile.TemporaryFile() as f:
+           subprocess.call(cmd, stdout=f, stderr=f)
+           f.seek(0)
+           output = f.read()
