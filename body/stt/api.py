@@ -11,10 +11,10 @@ except ImportError:
     )
     import apiai
 
-
 import thread
 import pyaudio
 import time
+import json
 
 CHUNK = 512
 FORMAT = pyaudio.paInt16
@@ -26,9 +26,14 @@ CLIENT_ACCESS_TOKEN = '5fa81928957d47268b724df067a4bd5b'
 
 class ApiBody(Body):
     def __init__(self, mouth):
+        #Todo find a way to not initialize here
+        self.interrupted = False
         self.mouth = mouth
 
-    def waitForRequest(self):
+    def speak(self, text):
+        self.mouth.speak(text)
+
+    def listen(self):
         resampler = apiai.Resampler(source_samplerate=RATE)
 
         vad = apiai.VAD()
@@ -63,7 +68,6 @@ class ApiBody(Body):
                     frames_per_buffer=CHUNK,
                     stream_callback=callback)
 
-        self.mouth.speak("I'm ready !")
         stream.start_stream()
 
         print ("Say! Press enter for stop audio recording.")
@@ -85,6 +89,9 @@ class ApiBody(Body):
         p.terminate()
 
         print ("Wait for response...")
-        response = request.getresponse()
-
-        print (response.read())   
+        httpResponse = request.getresponse()
+        response = json.loads(httpResponse.read())
+        
+        print ("understand: " + response["result"]["resolvedQuery"])
+        print ("response: " + response["result"]["fulfillment"]["speech"])
+        return response["result"]["fulfillment"]["speech"]   

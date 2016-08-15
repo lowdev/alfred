@@ -11,6 +11,9 @@ from gtts import gTTS
 
 class GoogleMouth(Mouth):
    def speak(self, sentence):
+       if not sentence:
+           return
+       
        print("say: " + sentence)
        tts = gTTS(text=sentence, lang='en')
        with tempfile.NamedTemporaryFile(suffix='.mp3', delete=False) as f:
