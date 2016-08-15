@@ -11,7 +11,6 @@ def main():
     print("Load actions")
     print("Load mouth")
     mouth = GoogleMouth()
-    mouth.speak("Hello, what can i do for you ?")
 
     print("Load head");
     body = ApiBody(mouth)

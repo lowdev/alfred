@@ -29,8 +29,6 @@ class ApiBody(Body):
         self.mouth = mouth
 
     def waitForRequest(self):
-        print("I'm waiting")
-
         resampler = apiai.Resampler(source_samplerate=RATE)
 
         vad = apiai.VAD()
@@ -65,6 +63,7 @@ class ApiBody(Body):
                     frames_per_buffer=CHUNK,
                     stream_callback=callback)
 
+        self.mouth.speak("I'm ready !")
         stream.start_stream()
 
         print ("Say! Press enter for stop audio recording.")
