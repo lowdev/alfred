@@ -3,7 +3,7 @@ from .google import GoogleMouth
 """
 alfred
 ~~~~~~~~~~~~~~~~
-Google STT.
+Google tts.
 """
 
 __all__ = [
