@@ -22,13 +22,12 @@ CHANNELS = 1
 RATE = 44100
 RECORD_SECONDS = 2
 
-CLIENT_ACCESS_TOKEN = '5fa81928957d47268b724df067a4bd5b'
-
 class ApiBody(Body):
-    def __init__(self, mouth):
+    def __init__(self, config, mouth):
         #Todo find a way to not initialize here
         self.interrupted = False
         self.mouth = mouth
+        self.CLIENT_ACCESS_TOKEN = config['client_access_token']
 
     def speak(self, text):
         self.mouth.speak(text)
@@ -38,7 +37,7 @@ class ApiBody(Body):
 
         vad = apiai.VAD()
 
-        ai = apiai.ApiAI(CLIENT_ACCESS_TOKEN)
+        ai = apiai.ApiAI(self.CLIENT_ACCESS_TOKEN)
 
         request = ai.voice_request()
 
