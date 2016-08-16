@@ -8,15 +8,17 @@ alfred
 Main module to launch the application.
 """
 
-def main():
-    print("Load config")
-    
-    config = None
+def getConfig():
     try:
         with open('profile.yml', "r") as f:
-            config = yaml.safe_load(f)
-    except OSError:      
+           return yaml.safe_load(f)
+    except OSError:
         raise
+
+
+def main():
+    print("Load config")
+    config = getConfig()
 
     print("Load actions")
     print("Load mouth")
