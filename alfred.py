@@ -1,5 +1,5 @@
 from speaker import GoogleSpeaker
-from body import ApiBody
+from robot import ApiRobot
 import yaml
 
 """
@@ -25,8 +25,8 @@ def main():
     speaker = GoogleSpeaker()
 
     print("Load head");
-    body = ApiBody(config['apiai'], speaker)
-    body.waitForRequest()
+    robot = ApiRobot(config['apiai'], speaker)
+    robot.waitForRequest()
 
 if __name__ == '__main__':
     main()

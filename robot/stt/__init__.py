@@ -1,4 +1,4 @@
-from .api import ApiBody
+from .api import ApiRobot
 
 """
 alfred
@@ -7,5 +7,5 @@ All STT.
 """
 
 __all__ = [
-    'apiBody'
+    'apiRobot'
 ]

@@ -1,6 +1,6 @@
 
-from .body import Body
-from .stt  import ApiBody
+from .robot import Robot
+from .stt  import ApiRobot
 
 """
 alfred
@@ -9,6 +9,6 @@ Library for performing with support for several engines and APIs, online and off
 """
 
 __all__ = [
-    'Body',
-    'ApiBody'
+    'Robot',
+    'ApiRobot'
 ]

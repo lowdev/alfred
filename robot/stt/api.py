@@ -1,4 +1,4 @@
-from ..body import Body
+from ..robot import Robot
 
 import os
 import sys
@@ -22,9 +22,9 @@ CHANNELS = 1
 RATE = 44100
 RECORD_SECONDS = 2
 
-class ApiBody(Body):
+class ApiRobot(Robot):
     def __init__(self, config, speaker):
-        super(ApiBody, self).__init__(config, speaker)
+        super(ApiRobot, self).__init__(config, speaker)
         self.CLIENT_ACCESS_TOKEN = config['client_access_token']
 
     def speak(self, text):

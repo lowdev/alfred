@@ -5,8 +5,8 @@ from snowboy import snowboydecoder
 TOP_DIR = os.path.dirname(os.path.abspath(__file__))
 MODEL_FILE = os.path.join(TOP_DIR, "snowboy/model.pmdl")
 
-class Body(object):
-    """Abstract body class."""
+class Robot(object):
+    """Abstract robot class."""
     def __init__(self, config, speaker):
         self.speaker = speaker
         self.interrupted = False
