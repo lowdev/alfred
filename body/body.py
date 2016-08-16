@@ -8,7 +8,8 @@ MODEL_FILE = os.path.join(TOP_DIR, "snowboy/model.pmdl")
 class Body(object):
     """Abstract body class."""
     def __init__(self, config, mouth):
-        raise NotImplementedError("this is an abstract class")
+        self.mouth = mouth
+        self.interrupted = False
 
     def speak(self, text):
         raise NotImplementedError("this is an abstract class")

@@ -24,9 +24,7 @@ RECORD_SECONDS = 2
 
 class ApiBody(Body):
     def __init__(self, config, mouth):
-        #Todo find a way to not initialize here
-        self.interrupted = False
-        self.mouth = mouth
+        super(ApiBody, self).__init__(config, mouth)
         self.CLIENT_ACCESS_TOKEN = config['client_access_token']
 
     def speak(self, text):
