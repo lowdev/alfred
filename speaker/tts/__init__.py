@@ -1,4 +1,4 @@
-from .google import GoogleMouth
+from .google import GoogleSpeaker
 
 """
 alfred
@@ -7,5 +7,5 @@ Google tts.
 """
 
 __all__ = [
-    'GoogleMouth'
+    'GoogleSpeaker'
 ]

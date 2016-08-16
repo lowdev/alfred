@@ -1,4 +1,4 @@
-from ..mouth import Mouth
+from ..speaker import Speaker
 
 import os
 import tempfile
@@ -9,7 +9,7 @@ import subprocess
 
 from gtts import gTTS
 
-class GoogleMouth(Mouth):
+class GoogleSpeaker(Speaker):
    def speak(self, sentence):
        if not sentence:
            return

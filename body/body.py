@@ -7,8 +7,8 @@ MODEL_FILE = os.path.join(TOP_DIR, "snowboy/model.pmdl")
 
 class Body(object):
     """Abstract body class."""
-    def __init__(self, config, mouth):
-        self.mouth = mouth
+    def __init__(self, config, speaker):
+        self.speaker = speaker
         self.interrupted = False
 
     def speak(self, text):

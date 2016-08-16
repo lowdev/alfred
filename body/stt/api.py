@@ -23,12 +23,12 @@ RATE = 44100
 RECORD_SECONDS = 2
 
 class ApiBody(Body):
-    def __init__(self, config, mouth):
-        super(ApiBody, self).__init__(config, mouth)
+    def __init__(self, config, speaker):
+        super(ApiBody, self).__init__(config, speaker)
         self.CLIENT_ACCESS_TOKEN = config['client_access_token']
 
     def speak(self, text):
-        self.mouth.speak(text)
+        self.speaker.speak(text)
 
     def listen(self):
         resampler = apiai.Resampler(source_samplerate=RATE)

@@ -1,5 +1,5 @@
-from .mouth import Mouth
-from .tts import GoogleMouth
+from .speaker import Speaker
+from .tts import GoogleSpeaker
 
 """
 alfred
@@ -8,6 +8,6 @@ Library for performing with support for several engines and APIs, online and off
 """
 
 __all__ = [
-    'Mouth',
-    'GoogleMouth'
+    'Speaker',
+    'GoogleSpeaker'
 ]

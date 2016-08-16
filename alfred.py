@@ -1,4 +1,4 @@
-from mouth import GoogleMouth
+from speaker import GoogleSpeaker
 from body import ApiBody
 import yaml
 
@@ -21,11 +21,11 @@ def main():
     config = getConfig()
 
     print("Load actions")
-    print("Load mouth")
-    mouth = GoogleMouth()
+    print("Load speaker")
+    speaker = GoogleSpeaker()
 
     print("Load head");
-    body = ApiBody(config['apiai'], mouth)
+    body = ApiBody(config['apiai'], speaker)
     body.waitForRequest()
 
 if __name__ == '__main__':
