@@ -8,6 +8,7 @@ from io import BytesIO
 import soundfile as sf
 from wave import Wave_read
 import wave
+import sys
 
 class WatsonSpeaker(Speaker):
     RATE = 22050
@@ -30,51 +31,58 @@ class WatsonSpeaker(Speaker):
             stream=True, verify=False
         )
 
+        wave = Wave_read(BytesIO(response.content))
+
+        p = pyaudio.PyAudio()
+        stream = p.open(format=p.get_format_from_width(self.SAMPWIDTH),
+                        channels=self.NCHANNELS,
+                        rate=self.RATE,
+                        output=True)
+
+        stream.write(wave.readframes(wave.getnframes() / 2))
+
+    def speakSreeam(self, sentence):
+        print "Transform '" + str(sentence) + "' into sound"
+        response = requests.get(self.URL + "/v1/synthesize",
+            auth=(self.username, self.password),
+            params={'text': sentence, 'voice': self.voice, 'accept': self.ACCEPT},
+            stream=True, verify=False
+        )
+
+        p = pyaudio.PyAudio()
+        stream = p.open(format=p.get_format_from_width(self.SAMPWIDTH),
+                        channels=self.NCHANNELS,
+                        rate=self.RATE,
+                        output=True)
 
         f = BytesIO()
+        turn = 1
+        numberOfBytesForOneSecond = self.RATE * self.NCHANNELS * self.SAMPWIDTH
+        dataToRead = None
+        #response.iter_content(numberOfBytesForOneSecond/2)
         for data in response.iter_content():
             if data:
                 f.write(data)
-                
-        f.seek(0)
-        wave_file = wave.open(f, 'rb')
-        #wave_file = Wave_read(f.content)
-        #seems there is a lot of empty nFrames
-        print 'frame: ' + str(wave_file.getnframes())
-        frames = wave_file.readframes(wave_file.getnframes()/2)
+                print 'size: ' + str(len(data)) + ' byteSize: ' + str(len(f.getvalue()))
+                         
+                #if len(f.getvalue()) % (self.RATE * self.SAMPWIDTH) == 0:
+                if len(f.getvalue()) > 10000 * turn: 
+                    f.seek(0)
+                    print 'f: ' + str(len(f.getvalue()))
+                    wave_file = wave.open(f, 'rb')
 
-        proc_audio = pyaudio.PyAudio()
-        stream = proc_audio.open(
-            format=proc_audio.get_format_from_width(wave_file.getsampwidth()),
-            channels=wave_file.getnchannels(),
-            rate=wave_file.getframerate(),
-            output=True
-        )      
-        stream.write(frames)
+                    # skip unwanted frames
+                    #n_frames = int(turn/10 * wave_file.getframerate())
+                    n_frames = int((turn-1) * len(f.getvalue()))
+                    wave_file.setpos(n_frames)
+
+                    turn += 1
+                    frames = wave_file.readframes(numberOfBytesForOneSecond * turn)
+                    stream.write(frames)
+                    f.seek(10000 * turn)
+                    wave_file.close()
 
         stream.stop_stream()
         stream.close()
- 
-        proc_audio.terminate()
-        wave_file.close()
+        p.terminate()
 
-#        p = pyaudio.PyAudio()
-#        stream = p.open(format=p.get_format_from_width(self.SAMPWIDTH),
-#                        channels=self.NCHANNELS,
-#                        rate=self.RATE,
-#                        output=True)
-       
-#        silence = "0" * 3072 
-#        bytesRead = 0
-#        dataToRead = ''
-#        for data in req.iter_content(8096):
-#            dataToRead += data
-#            bytesRead += 1
-#            if bytesRead % self.CHUNK == 0:
-#                print (str(stream.get_write_available())
-#                stream.write(dataToRead)
-#                dataToRead = ''
-
-#        stream.stop_stream()
-#        stream.close()
-#        p.terminate()
