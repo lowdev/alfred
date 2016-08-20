@@ -68,6 +68,7 @@ class ApiRobot(Robot):
                     frames_per_buffer=CHUNK,
                     stream_callback=callback)
 
+        self.ding()
         stream.start_stream()
 
         print ("Say! Press enter for stop audio recording.")
