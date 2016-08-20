@@ -28,11 +28,10 @@ def main():
     config = getConfig()
 
     print("Load actions")
-    print("Load speaker")
     speaker = SpeakerFactory.produce(config)
-    #speaker = GoogleSpeaker()
+    print(speaker.name() + " speaker is loaded")
 
-    print("Load head");
+    print("Load head")
     robot = ApiRobot(config['apiai'], speaker)
     robot.waitForRequest()
 

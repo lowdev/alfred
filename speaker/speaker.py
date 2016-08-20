@@ -12,6 +12,9 @@ class Speaker(object):
     def speak(self, config):
         raise NotImplementedError("this is an abstract class")
 
+    def name(self):
+        raise NotImplementedError("this is an abstract class")
+
     def ding(self):
         self.__playWave(DETECT_DING)        
 

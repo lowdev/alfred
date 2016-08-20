@@ -47,3 +47,6 @@ class GoogleSpeaker(Speaker):
            subprocess.call(cmd, stdout=f, stderr=f)
            f.seek(0)
            output = f.read()
+
+   def name(self):
+       return 'Google'

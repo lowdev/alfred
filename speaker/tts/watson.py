@@ -41,6 +41,9 @@ class WatsonSpeaker(Speaker):
 
         stream.write(wave.readframes(wave.getnframes() / 2))
 
+    def name(self):
+        print 'Watson'
+
     def speakSreeam(self, sentence):
         print "Transform '" + str(sentence) + "' into sound"
         response = requests.get(self.URL + "/v1/synthesize",
