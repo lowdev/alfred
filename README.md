@@ -2,6 +2,7 @@
 Voice command system
 
 # Install
+pip install apiai
 
 # Gstreamer
 sudo apt-get install python-gi python3-gi \
@@ -12,3 +13,4 @@ sudo apt-get install python-gi python3-gi \
     gstreamer1.0-plugins-ugly \
     gstreamer1.0-plugins-bad \
     gstreamer1.0-libav
+
