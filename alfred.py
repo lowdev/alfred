@@ -1,10 +1,13 @@
-from speaker import GoogleSpeaker
-from speaker import WatsonSpeaker
+from speaker import SpeakerFactory
 from robot import ApiRobot
 import yaml
 import ssl
 _create_unverified_https_context = ssl._create_unverified_context
 ssl._create_default_https_context = _create_unverified_https_context
+
+import requests
+from requests.packages.urllib3.exceptions import InsecureRequestWarning
+requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
 """
 alfred
@@ -26,7 +29,7 @@ def main():
 
     print("Load actions")
     print("Load speaker")
-    speaker = WatsonSpeaker(config['watson'])
+    speaker = SpeakerFactory.produce(config)
     #speaker = GoogleSpeaker()
 
     print("Load head");
