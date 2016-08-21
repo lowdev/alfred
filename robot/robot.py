@@ -7,9 +7,10 @@ MODEL_FILE = os.path.join(TOP_DIR, "snowboy/model.pmdl")
 
 class Robot(object):
     """Abstract robot class."""
-    def __init__(self, config, speaker):
+    def __init__(self, config, speaker, actions):
         self.speaker = speaker
         self.interrupted = False
+        self.actions = actions
 
     def speak(self, text):
         raise NotImplementedError("this is an abstract class")
@@ -19,6 +20,8 @@ class Robot(object):
 
     def startConversation(self):
         response = self.listen()
+        result = self.actions.execute(response)
+        #self.speak(result)
         self.speak(response)
 
     def waitForRequest(self):

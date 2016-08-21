@@ -1,3 +1,4 @@
+from action import Actions
 from speaker import SpeakerFactory
 from robot import ApiRobot
 import yaml
@@ -28,11 +29,13 @@ def main():
     config = getConfig()
 
     print("Load actions")
+    actions = Actions()
+
     speaker = SpeakerFactory.produce(config)
     print(speaker.name() + " speaker is loaded")
 
     print("Load head")
-    robot = ApiRobot(config['apiai'], speaker)
+    robot = ApiRobot(config['apiai'], speaker, actions)
     robot.waitForRequest()
 
 if __name__ == '__main__':

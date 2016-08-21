@@ -23,8 +23,8 @@ RATE = 44100
 RECORD_SECONDS = 2
 
 class ApiRobot(Robot):
-    def __init__(self, config, speaker):
-        super(ApiRobot, self).__init__(config, speaker)
+    def __init__(self, config, speaker, actions):
+        super(ApiRobot, self).__init__(config, speaker, actions)
         self.CLIENT_ACCESS_TOKEN = config['client_access_token']
 
     def speak(self, text):
