@@ -94,5 +94,4 @@ class ApiRobot(Robot):
         response = json.loads(httpResponse.read())
         
         print ("understand: " + response["result"]["resolvedQuery"])
-        print ("response: " + response["result"]["fulfillment"]["speech"])
         return response["result"]["fulfillment"]["speech"]   
