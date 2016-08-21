@@ -23,8 +23,7 @@ class WatsonSpeaker(Speaker):
         self.password = config['password']
         self.voice    = config['voice']
 
-    def speak(self, sentence):
-        print "Transform '" + str(sentence) + "' into sound"
+    def speakImpl(self, sentence):
         response = requests.get(self.URL + "/v1/synthesize",
             auth=(self.username, self.password),
             params={'text': sentence, 'voice': self.voice, 'accept': self.ACCEPT},
@@ -42,7 +41,7 @@ class WatsonSpeaker(Speaker):
         stream.write(wave.readframes(wave.getnframes() / 2))
 
     def name(self):
-        print 'Watson'
+        return 'Watson'
 
     def speakSreeam(self, sentence):
         print "Transform '" + str(sentence) + "' into sound"

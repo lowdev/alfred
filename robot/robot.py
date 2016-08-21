@@ -19,9 +19,8 @@ class Robot(object):
         raise NotImplementedError("this is an abstract class")
 
     def startConversation(self):
-        response = self.listen()
-        result = self.actions.execute(response)
-        #self.speak(result)
+        response, action = self.listen()
+        result = self.actions.execute(action)
         self.speak(response)
 
     def waitForRequest(self):

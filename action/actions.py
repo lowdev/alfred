@@ -6,9 +6,10 @@ class Actions:
     TOP_DIR = os.path.dirname(os.path.abspath(__file__))
     MODULE_PATH = os.path.join(TOP_DIR, "module")
 
-    def __init__(self):
+    def __init__(self, config):
         self.logger = logging.getLogger(__name__)
         self.modules = self.__initModules() 
+        self.config = config
 
     def __initModules(self):
         modules = []
@@ -40,7 +41,7 @@ class Actions:
                                        "'%s'", text, module.__name__)
                 action = ''
                 try:
-                    action =  module.handle(text)
+                    action =  module.handle(text, self.config)
                 except Exception:
                     self.logger.error('Failed to execute module',
                                        exc_info=True)
@@ -52,4 +53,5 @@ class Actions:
                     return action
         
         self.logger.debug("No module was able to handle any of these " +
-                           "phrases: %r", texts)
+                           "phrases: %r", text)
+

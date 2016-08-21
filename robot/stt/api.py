@@ -92,6 +92,10 @@ class ApiRobot(Robot):
         print ("Wait for response...")
         httpResponse = request.getresponse()
         response = json.loads(httpResponse.read())
-        
-        print ("understand: " + response["result"]["resolvedQuery"])
-        return response["result"]["fulfillment"]["speech"]   
+
+        result = response["result"]
+        if result:         
+            print ("understand: " + result["resolvedQuery"])
+            return (result["fulfillment"]["speech"], result["action"])   
+        else:
+           return None

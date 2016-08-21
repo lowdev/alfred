@@ -6,7 +6,7 @@ WORDS = []
 PRIORITY = -(maxint + 1)
 
 
-def handle(text):
+def handle(text, config):
     """
         Reports that the user has unclear or unusable input.
         Arguments:
@@ -20,4 +20,4 @@ def handle(text):
     return random.choice(messages)
 
 def isValid(text):
-    return True
+    return False

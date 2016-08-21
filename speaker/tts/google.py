@@ -10,11 +10,7 @@ import subprocess
 from gtts import gTTS
 
 class GoogleSpeaker(Speaker):
-   def speak(self, sentence):
-       if not sentence:
-           return
-       
-       print("say: " + sentence)
+   def speakImpl(self, sentence):
        tts = gTTS(text=sentence, lang='en')
        with tempfile.NamedTemporaryFile(suffix='.mp3', delete=False) as f:
            tmpfile = f.name

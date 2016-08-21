@@ -29,7 +29,7 @@ def main():
     config = getConfig()
 
     print("Load actions")
-    actions = Actions()
+    actions = Actions(config)
 
     speaker = SpeakerFactory.produce(config)
     print(speaker.name() + " speaker is loaded")
