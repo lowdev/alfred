@@ -1,6 +1,7 @@
 from action import Actions
 from speaker import SpeakerFactory
 from robot import ApiRobot
+from robot import BingRobot
 import yaml
 import ssl
 _create_unverified_https_context = ssl._create_unverified_context

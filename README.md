@@ -3,6 +3,8 @@ Voice command system
 
 # Install
 pip install apiai
+pip install webrtcvad
+pip install monotonic
 
 # Gstreamer
 sudo apt-get install python-gi python3-gi \

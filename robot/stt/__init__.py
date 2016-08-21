@@ -1,4 +1,5 @@
 from .api import ApiRobot
+from .bing import BingRobot
 
 """
 alfred
