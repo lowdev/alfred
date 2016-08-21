@@ -13,7 +13,10 @@ class Robot(object):
         self.actions = actions
 
     def speak(self, text):
-        raise NotImplementedError("this is an abstract class")
+        self.speaker.speak(text)
+
+    def ding(self):
+        self.speaker.ding()
 
     def listen(self):
         raise NotImplementedError("this is an abstract class")

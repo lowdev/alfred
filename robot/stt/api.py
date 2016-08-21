@@ -27,12 +27,6 @@ class ApiRobot(Robot):
         super(ApiRobot, self).__init__(config, speaker, actions)
         self.CLIENT_ACCESS_TOKEN = config['client_access_token']
 
-    def speak(self, text):
-        self.speaker.speak(text)
-
-    def ding(self):
-        self.speaker.ding()
-
     def listen(self):
         resampler = apiai.Resampler(source_samplerate=RATE)
 
@@ -68,7 +62,7 @@ class ApiRobot(Robot):
                     frames_per_buffer=CHUNK,
                     stream_callback=callback)
 
-        self.ding()
+        super(ApiRobot, self).ding()
         stream.start_stream()
 
         print ("Say! Press enter for stop audio recording.")
