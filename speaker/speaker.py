@@ -12,6 +12,8 @@ class Speaker(object):
     def speak(self, sentence):
         if not sentence:
            self.dong()
+           return
+
         print "Transform '" + str(sentence) + "' into sound"
         
         self.speakImpl(sentence)

@@ -5,6 +5,7 @@ Voice command system
 pip install apiai
 pip install webrtcvad
 pip install monotonic
+pip install SpeechRecognition
 
 # Gstreamer
 sudo apt-get install python-gi python3-gi \
