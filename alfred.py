@@ -1,7 +1,6 @@
 from action import Actions
 from speaker import SpeakerFactory
-from robot import ApiRobot
-from robot import BingRobot
+from robot import RobotFactory
 import yaml
 import ssl
 _create_unverified_https_context = ssl._create_unverified_context
@@ -35,8 +34,8 @@ def main():
     speaker = SpeakerFactory.produce(config)
     print(speaker.name() + " speaker is loaded")
 
-    print("Load head")
-    robot = ApiRobot(config['apiai'], speaker, actions)
+    robot = RobotFactory.produce(config, speaker, actions)
+    print(robot.name() + " robot is loaded")
     robot.waitForRequest()
 
 if __name__ == '__main__':

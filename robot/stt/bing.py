@@ -22,6 +22,9 @@ class BingRobot(Robot):
         super(BingRobot, self).__init__(config, speaker, actions)
         self.BING_KEY = config['key']
 
+    def name(self):
+        return 'Bing'
+
     def listen(self):
         vad = webrtcvad.Vad(3)
         bing = BingVoice(self.BING_KEY)

@@ -27,6 +27,9 @@ class ApiRobot(Robot):
         super(ApiRobot, self).__init__(config, speaker, actions)
         self.CLIENT_ACCESS_TOKEN = config['client_access_token']
 
+    def name(self):
+        return 'ApiAi'
+
     def listen(self):
         resampler = apiai.Resampler(source_samplerate=RATE)
 
