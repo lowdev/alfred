@@ -23,7 +23,7 @@ class BingRobot(Robot):
         self.BING_KEY = config['key']
 
     def listen(self):
-        vad = webrtcvad.Vad(2)
+        vad = webrtcvad.Vad(3)
         bing = BingVoice(self.BING_KEY)
 
         pa = pyaudio.PyAudio()
@@ -95,9 +95,11 @@ class BingRobot(Robot):
                 print('Bing:' + text.encode('utf-8'))
             except UnknownValueError:
                 print("Microsoft Bing Voice Recognition could not understand audio")
+                break
             except RequestError as e:
                 print("Could not request results from Microsoft Bing Voice Recognition service; {0}".format(e))
-        
+                break
+
             got_a_sentence = False
         
         stream.close()
