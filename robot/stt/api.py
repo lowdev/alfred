@@ -16,6 +16,8 @@ import pyaudio
 import time
 import json
 
+from .vad import ApiaiVAD
+
 CHUNK = 512
 FORMAT = pyaudio.paInt16
 CHANNELS = 1
@@ -33,7 +35,7 @@ class ApiRobot(Robot):
     def listen(self):
         resampler = apiai.Resampler(source_samplerate=RATE)
 
-        vad = apiai.VAD()
+        vad = ApiaiVAD()
 
         ai = apiai.ApiAI(self.CLIENT_ACCESS_TOKEN)
 
@@ -49,6 +51,7 @@ class ApiRobot(Robot):
             if (state == 1):
                return in_data, pyaudio.paContinue
             else:
+               print '4: ' + str(frame_count)
                return in_data, pyaudio.paComplete
         
         def input_thread(L):
