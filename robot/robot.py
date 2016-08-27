@@ -27,7 +27,11 @@ class Robot(object):
     def startConversation(self):
         response, action = self.listen()
         result = self.actions.execute(action)
-        self.speak(response)
+        
+        if response is not None:
+            self.speak(response)
+        else:
+            self.speak(result)
 
     def waitForRequest(self):
         signal.signal(signal.SIGINT, self.signal_handler)

@@ -16,7 +16,13 @@ class BingRobot(Robot):
             r.adjust_for_ambient_noise(source)
             print("Say something!")
             super(BingRobot, self).ding()
-            audio = r.listen(source)
-        text = r.recognize_bing(audio, self.BING_KEY)
+            audio = r.listen(source, 5)
+
+        text = ''
+        try:
+            text = r.recognize_bing(audio, self.BING_KEY)
+        except:
+            print "I don't understand..."
+        
         print 'text: ' + text
         return (None, text)
