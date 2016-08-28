@@ -34,8 +34,7 @@ def handle(text, profile):
 
     textLowercase = text.lower()
 
-    if 'pause' in textLowercase:
-        print 'here'
+    if 'pause' in textLowercase or 'play' in textLowercase:
         data = {'jsonrpc':'2.0','method':'Player.PlayPause','params':{'playerid':1},'id':1}
         doJson(data, profile)
     elif 'stop' in textLowercase:
@@ -66,4 +65,4 @@ def isValid(text):
         	text -- user-input, typically transcribed speech
     """
 
-    return 'kodi' in text.lower()
+    return 'tv' in text.lower()
