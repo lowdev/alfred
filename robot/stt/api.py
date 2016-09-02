@@ -51,7 +51,6 @@ class ApiRobot(Robot):
             if (state == 1):
                return in_data, pyaudio.paContinue
             else:
-               print '4: ' + str(frame_count)
                return in_data, pyaudio.paComplete
         
         def input_thread(L):
