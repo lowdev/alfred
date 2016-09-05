@@ -1,4 +1,4 @@
-from .api    import ApiRobot
+from .apiai  import ApiRobot
 from .bing   import BingRobot
 from .watson import WatsonRobot
 

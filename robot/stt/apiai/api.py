@@ -1,4 +1,4 @@
-from ..robot import Robot
+from ...robot import Robot
 
 import os
 import sys
@@ -11,13 +11,8 @@ except ImportError:
     )
     import apiai
 
-import thread
-import pyaudio
-import time
-import json
-
-from .vad import ApiaiVAD
-from .ear import PyaudioEar
+from ..ear import PyaudioEar
+from apiaiRequester import ApiaiRequester
 
 class ApiRobot(Robot):
     def __init__(self, config, speaker, actions):
@@ -31,7 +26,8 @@ class ApiRobot(Robot):
     def listen(self):
         request = self.ai.voice_request()
         request.lang = 'en' # optional, default value equal 'en'
-        ear = PyaudioEar(request)
+        requester = ApiaiRequester(request)        
+        ear = PyaudioEar(requester)
         ear.getReady()
         super(ApiRobot, self).ding()
         response = ear.listen()
@@ -42,3 +38,4 @@ class ApiRobot(Robot):
             return (result["fulfillment"]["speech"], result["action"])   
         else:
            return None
+

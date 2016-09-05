@@ -68,8 +68,6 @@ class PyaudioEar(object):
         self.stream.close()
         self.pyAudio.terminate()
 
-        print ("Wait for response...")
-        httpResponse = self.requester.getresponse()
+        return self.requester.getResponse()
 
-        return json.loads(httpResponse.read())
 
