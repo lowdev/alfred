@@ -6,6 +6,7 @@ pip install apiai
 pip install webrtcvad
 pip install monotonic
 pip install SpeechRecognition
+pip install websocket-client
 
 # Gstreamer
 sudo apt-get install python-gi python3-gi \
