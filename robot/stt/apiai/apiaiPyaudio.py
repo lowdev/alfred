@@ -12,14 +12,14 @@ import time
 import json
 from ..vad import ApiaiVAD
 
-class PyaudioEar(object):
+class ApiaiPyaudioEar(object):
     RATE = 44100
     FORMAT = pyaudio.paInt16
     CHANNELS = 1
     CHUNK = 512
 
     def __init__(self, requester):
-        super(PyaudioEar, self).__init__()
+        super(ApiaiPyaudioEar, self).__init__()
         self.resampler = apiai.Resampler(source_samplerate=self.RATE)
         self.vad = ApiaiVAD()
         self.stream = None

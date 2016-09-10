@@ -11,7 +11,7 @@ except ImportError:
     )
     import apiai
 
-from ..ear import PyaudioEar
+from apiaiPyaudio import ApiaiPyaudioEar
 from apiaiRequester import ApiaiRequester
 
 class ApiRobot(Robot):
@@ -27,7 +27,7 @@ class ApiRobot(Robot):
         request = self.ai.voice_request()
         request.lang = 'en' # optional, default value equal 'en'
         requester = ApiaiRequester(request)        
-        ear = PyaudioEar(requester)
+        ear = ApiaiPyaudioEar(requester)
         ear.getReady()
         super(ApiRobot, self).ding()
         response = ear.listen()
