@@ -1,9 +1,11 @@
-from ..robot import Robot
-
-import requests
+from ...robot import Robot
+from ..ear import PyaudioEar
+from .watsonRequester import  WatsonRequester
 
 from websocket import create_connection
 from base64 import b64encode
+import requests
+import json
 
 class WatsonRobot(Robot):
     def __init__(self, config, speaker, actions):
@@ -18,6 +20,29 @@ class WatsonRobot(Robot):
     def name(self):
         return 'Watson'
 
+    def listen(self):
+        token = self.token()
+
+        ws = create_connection(self.url + '&watson-token=' + token)
+
+        data = {"action": "start", "content-type": "audio/l16;rate=44100", "continuous": True, "interim_results": True,
+                "inactivity_timeout": 600}
+        data['word_confidence'] = True
+        data['timestamps'] = True
+        data['max_alternatives'] = 3
+        ws.send(json.dumps(data).encode('utf8'))
+        #ws.send("{\"action\": \"start\", \"content-type\": \"audio/l16;rate=44100\"}")
+        result =  ws.recv()
+        print "Received '%s'" % result
+
+        requester = WatsonRequester(ws)
+        ear = PyaudioEar(requester)
+        ear.getReady()
+        super(WatsonRobot, self).ding()
+        response = ear.listen()
+        print 'response: ' + response
+        ws.close()
+
     def token(self):
         serviceName = 'speech-to-text'
         uri = self.hostname +  "/authorization/api/v1/token?url=" + self.hostname + '/' + serviceName + "/api"
@@ -31,11 +56,3 @@ class WatsonRobot(Robot):
         jsonObject = resp.json()
         return jsonObject['token']
 
-    def listen(self):
-        token = self.token()
-
-        ws = create_connection(self.url + '&watson-token=' + token)
-        ws.send("{\"action\": \"start\", \"content-type\": \"audio/l16;rate=22050\"}")
-        result =  ws.recv()
-        print "Received '%s'" % result
-        ws.close()

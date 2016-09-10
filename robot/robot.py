@@ -8,6 +8,7 @@ MODEL_FILE = os.path.join(TOP_DIR, "snowboy/model.pmdl")
 class Robot(object):
     """Abstract robot class."""
     def __init__(self, config, speaker, actions):
+        self.config = config
         self.speaker = speaker
         self.interrupted = False
         self.actions = actions
