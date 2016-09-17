@@ -32,10 +32,10 @@ class ApiRobot(Robot):
         super(ApiRobot, self).ding()
         response = ear.listen()
 
-        result = response["result"]
+        result = response.get("result", None)
         if result:         
             print ("understand: " + result["resolvedQuery"])
             return (result["fulfillment"]["speech"], result["action"])   
         else:
-           return None
+           return (None, '')
 
