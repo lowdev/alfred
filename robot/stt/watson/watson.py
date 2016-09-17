@@ -1,6 +1,5 @@
 from ...robot import Robot
 
-from stt_watson.SttWatson import SttWatson
 from stt_watson.SttWatsonLogListener import SttWatsonLogListener
 from recording.Record import Record
 from watson_client.Client import Client
@@ -9,9 +8,6 @@ from utils.SignalHandler import SignalHandler
 import threading
 import signal
 import os
-import argparse
-import pkgutil
-import yaml
 
 class WatsonRobot(Robot):
     def __init__(self, config, speaker, actions):
@@ -39,7 +35,3 @@ class WatsonRobot(Robot):
         self.record.start()
         self.watsonClient.setListeners(self.listeners)
         self.watsonClient.startStt(audioFd)
-
-        sttWatson = SttWatson(self.config)
-        sttWatson.addListener(sttWatsonLogListener)
-        sttWatson.run()

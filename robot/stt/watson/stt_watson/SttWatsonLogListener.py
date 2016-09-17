@@ -1,5 +1,5 @@
 from .SttWatsonAbstractListener import SttWatsonAbstractListener
-
+from twisted.internet import ssl, reactor
 
 class SttWatsonLogListener(SttWatsonAbstractListener):
     def __init__(self):
@@ -7,6 +7,7 @@ class SttWatsonLogListener(SttWatsonAbstractListener):
 
     def listenHypothesis(self, hypothesis):
         print "Hypothesis: {0}".format(hypothesis)
+        reactor.callFromThread(reactor.stop)
 
     def listenPayload(self, payload):
         print(u"Text message received: {0}".format(payload))
