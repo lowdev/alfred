@@ -16,7 +16,7 @@ class GoogleRobot(Robot):
         super(GoogleRobot, self).ding()
         response = self.ear.listen()
 
-        return (None, '')
+        return (None, response)
 
     def __setEnvironementVariable(self, value):
         os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = value

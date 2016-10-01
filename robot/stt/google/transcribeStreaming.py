@@ -85,6 +85,7 @@ class TranscribeStreaming(object):
                     data.append(buff.get(block=False))
                 except queue.Empty:
                     break
+
             yield b''.join(data)
 
 
@@ -168,7 +169,7 @@ class TranscribeStreaming(object):
 
             # Display the transcriptions & their alternatives
             for result in resp.results:
-                print(result.alternatives)
+                return result.alternatives
 
             # Exit recognition if any of the transcribed phrases could be
             # one of our keywords.
@@ -194,10 +195,13 @@ class TranscribeStreaming(object):
                 signal.signal(signal.SIGINT, lambda *_: recognize_stream.cancel())
 
                 # Now, put the transcription responses to use.
+                result = None
                 try:
-                    self.listen_print_loop(recognize_stream)
+                    result = self.listen_print_loop(recognize_stream)
 
                     recognize_stream.cancel()
+
                 except face.CancellationError:
                     # This happens because of the interrupt handler
-                    pass
+                    #pass
+                    return result.transcript
