@@ -89,3 +89,4 @@ ENV/
 .ropeproject
 
 profile.yml
+credentials-key.json
