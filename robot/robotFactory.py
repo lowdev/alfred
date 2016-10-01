@@ -2,6 +2,7 @@ from .stt import ApiRobot
 from .stt import BingRobot
 from .stt import WatsonRobot
 from .stt import WitaiRobot
+from .stt import GoogleRobot
 
 class RobotFactory:
     @staticmethod
@@ -15,5 +16,8 @@ class RobotFactory:
 
         if configSTT == 'witai':
            return WitaiRobot(config['witai-stt'], speaker, actions)
+
+        if configSTT == 'google':
+           return GoogleRobot(config['google-stt'], speaker, actions)
 
         return ApiRobot(config['apiai'], speaker, actions)
