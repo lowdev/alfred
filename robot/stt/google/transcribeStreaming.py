@@ -33,11 +33,11 @@ class TranscribeStreaming(object):
     RATE = 16000
     CHUNK = int(RATE / 10)  # 100ms
 
-    # The Speech API has a streaming limit of 60 seconds of audio*, so keep the
+    # The Speech API has a streaming limit of 20 seconds of audio*, so keep the
     # connection alive for that long, plus some more to give the API time to figure
     # out the transcription.
     # * https://g.co/cloud/speech/limits#content
-    DEADLINE_SECS = 60 * 3 + 5
+    DEADLINE_SECS = 20 * 3 + 5
     SPEECH_SCOPE = 'https://www.googleapis.com/auth/cloud-platform'
 
 
@@ -169,6 +169,7 @@ class TranscribeStreaming(object):
 
             # Display the transcriptions & their alternatives
             for result in resp.results:
+                #print result.alternatives
                 return result.alternatives
 
             # Exit recognition if any of the transcribed phrases could be
@@ -185,9 +186,10 @@ class TranscribeStreaming(object):
             # For streaming audio from the microphone, there are three threads.
             # First, a thread that collects audio data as it comes in
             with self.record_audio(self.RATE, self.CHUNK) as buffered_audio_data:
+                print 'Im ready'
                 # Second, a thread that sends requests with that data
                 requests = self.request_stream(buffered_audio_data, self.RATE)
-                # Third, a thread that listens for transcription responses
+                # Third, a thread that listens for transcription response
                 recognize_stream = service.StreamingRecognize(
                     requests, self.DEADLINE_SECS)
 
@@ -198,10 +200,10 @@ class TranscribeStreaming(object):
                 result = None
                 try:
                     result = self.listen_print_loop(recognize_stream)
-
                     recognize_stream.cancel()
+                    return result[0].transcript
 
                 except face.CancellationError:
                     # This happens because of the interrupt handler
                     #pass
-                    return result.transcript
+                    return result[0].transcript

@@ -16,6 +16,7 @@ class GoogleRobot(Robot):
         super(GoogleRobot, self).ding()
         response = self.ear.listen()
 
+        print 'response: ' + str(response)
         return (None, response)
 
     def __setEnvironementVariable(self, value):

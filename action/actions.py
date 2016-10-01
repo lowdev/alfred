@@ -35,6 +35,9 @@ class Actions:
         return modules  
 
     def execute(self, text):
+        if not text:
+            return
+
         for module in self.modules:
             if module.isValid(text):
                 self.logger.debug("'%s' is a valid phrase for module " +
