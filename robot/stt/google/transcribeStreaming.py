@@ -167,10 +167,14 @@ class TranscribeStreaming(object):
             if resp.error.code != code_pb2.OK:
                 raise RuntimeError('Server error: ' + resp.error.message)
 
+            recognized_sentence = None
             # Display the transcriptions & their alternatives
             for result in resp.results:
-                #print result.alternatives
-                return result.alternatives
+                print result.alternatives
+                recognized_sentence = result.alternatives
+
+            if recognized_sentence:
+                return recognized_sentence
 
             # Exit recognition if any of the transcribed phrases could be
             # one of our keywords.
@@ -197,7 +201,6 @@ class TranscribeStreaming(object):
                 signal.signal(signal.SIGINT, lambda *_: recognize_stream.cancel())
 
                 # Now, put the transcription responses to use.
-                result = None
                 try:
                     result = self.listen_print_loop(recognize_stream)
                     recognize_stream.cancel()
@@ -205,5 +208,4 @@ class TranscribeStreaming(object):
 
                 except face.CancellationError:
                     # This happens because of the interrupt handler
-                    #pass
-                    return result[0].transcript
+                    pass
