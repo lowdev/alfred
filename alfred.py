@@ -1,3 +1,6 @@
+import sys
+sys.settrace
+
 from action import Actions
 from speaker import SpeakerFactory
 from robot import RobotFactory
@@ -37,6 +40,8 @@ def main():
     robot = RobotFactory.produce(config, speaker, actions)
     print(robot.name() + " robot is loaded")
     robot.waitForRequest()
+    #robot.listen()
+
 
 if __name__ == '__main__':
     main()

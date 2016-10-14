@@ -14,10 +14,13 @@ class GoogleRobot(Robot):
 
     def listen(self):
         super(GoogleRobot, self).ding()
-        response = self.ear.listen()
+        response = self.ear.listen(self.onReady)
 
         print 'response: ' + str(response)
         return (None, response)
 
     def __setEnvironementVariable(self, value):
         os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = value
+
+    def onReady(self):
+        super(GoogleRobot, self).ding()

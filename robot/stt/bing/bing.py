@@ -12,8 +12,16 @@ except ImportError:
 import speech_recognition as sr
 
 import io
+import pyaudio
+import thread
+import time
 
 class BingRobot(Robot):
+    FORMAT = pyaudio.paInt16
+    CHANNELS = 1
+    SAMPLE_RATE = 16000
+    CHUNK = 1024
+
     def __init__(self, config, speaker, actions):
         super(BingRobot, self).__init__(config, speaker, actions)
         self.BING_KEY = config['key']
@@ -23,15 +31,18 @@ class BingRobot(Robot):
     def name(self):
         return 'Bing'
 
+    def input_thread(self, L):
+        raw_input()
+        L.append(None)
+
     def listen(self):
         self.vad.reset()
         self.vad = ApiaiVAD()
         
         print("Say something!")
         super(BingRobot, self).ding()
-        with sr.Microphone() as source:
-            r = sr.Recognizer()
-            audio = self.record(source, 5)
+        
+        audio = self.record2()
 
         text = ''
         try:
@@ -41,6 +52,49 @@ class BingRobot(Robot):
         
         print 'text: ' + text
         return (None, text)
+
+    def record2(self):
+        self.vad.reset()
+        self.vad = ApiaiVAD()
+
+        frames = io.BytesIO()
+        def callback(in_data, frame_count, time_info, status):
+            framesR, data = self.resampler.resample(in_data, frame_count)
+            state = self.vad.processFrame(framesR)
+            frames.write(in_data)
+            print 'state: ' + str(state)
+            if (state == 1):
+               return in_data, pyaudio.paContinue
+            else:
+               return in_data, pyaudio.paComplete
+       
+        self.pyAudio = pyaudio.PyAudio()
+        self.stream = self.pyAudio.open(format=self.FORMAT,
+                    channels=self.CHANNELS,
+                    rate=self.SAMPLE_RATE,
+                    input=True,
+                    output=False,
+                    frames_per_buffer=self.CHUNK,
+                    stream_callback=callback)
+
+        self.stream.start_stream()
+        print ("Say! Press enter for stop audio recording.")
+        try:
+           L = []
+           thread.start_new_thread(self.input_thread, (L,))
+           while self.stream.is_active() and len(L) == 0:
+             time.sleep(0.1)
+        except Exception:
+           raise
+        except KeyboardInterrupt:
+           pass
+        self.stream.stop_stream()
+        self.stream.close()
+        self.pyAudio.terminate()
+
+        frame_data = frames.getvalue()
+        frames.close()
+        return sr.AudioData(frame_data, self.SAMPLE_RATE, self.CHANNELS)
 
     def record(self, source, duration = None, offset = None):
         """
