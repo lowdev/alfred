@@ -1,12 +1,11 @@
 from ...robot import Robot
-from transcribeStreaming import TranscribeStreaming as Ear
+import transcribeStreaming2 as Ear
 
 import os
 
 class GoogleRobot(Robot):
     def __init__(self, config, speaker, actions):
         super(GoogleRobot, self).__init__(config, speaker, actions)
-        self.ear = Ear()
         self.__setEnvironementVariable(config['google_application_credentials'])
 
     def name(self):
@@ -14,7 +13,7 @@ class GoogleRobot(Robot):
 
     def listen(self):
         super(GoogleRobot, self).ding()
-        response = self.ear.listen(self.onReady)
+        response = Ear.main()
 
         print 'response: ' + str(response)
         return (None, response)
